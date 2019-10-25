@@ -1,0 +1,43 @@
+.Item {
+    border: 1px solid darkgrey;
+    width: 50%;
+    margin: 2px auto;
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 15px;
+}
+
+.Item button {
+    align-items: space-between;
+    background-color: transparent;
+    margin: 8px;
+    font: inherit;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.Item button:disabled {
+    background-color: #AC9980;
+    border: 1px solid #7E7365;
+    color: #ccc;
+    cursor: default;
+}
+
+.Item button:hover:disabled {
+    background-color: #AC9980;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.Item .AddItem {
+    color: rgb(91, 175, 129);
+}
+
+.Item .RemoveItem {
+    color: rgb(231, 199, 94);
+}
+
+.Item .DeleteItem {
+    color: rgb(151, 73, 73);
+}
