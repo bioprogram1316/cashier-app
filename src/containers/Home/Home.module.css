@@ -1,0 +1,40 @@
+.Image {
+    height: 100%;
+    width: 100%;
+    border: 1px outset darkgrey;
+    border-radius: 8px;
+}
+
+.FeaturesList {
+    list-style-position: inside;
+}
+
+.FeaturesList li {
+    padding: 20px;
+    font-weight: bold;
+}
+
+.TwoColumn {
+    float: left;
+    width: 49%;
+    padding: 5px;
+}
+
+.OneColumn {
+    display: block;    
+    width: 90%;
+    padding: 5px;
+    margin: auto;
+}
+
+.Row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  @media screen and (max-width: 500px) {
+    .TwoColumn {
+      width: 100%;
+    }
+  }
