@@ -31,6 +31,20 @@ class ImportInventoryForm extends Component {
                 valid: false,
                 touched: false
             },
+            filePath: {
+                elementType: 'input',
+                label: 'File Location',
+                elementConfig: {
+                    type: 'url',
+                    placeholder: 'File Path'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
+            },
             fileType: {
             elementType: 'select',
             label: 'Select Import File Type',
@@ -85,14 +99,11 @@ class ImportInventoryForm extends Component {
             formData[formElementIdentifier] = this.state.importForm[formElementIdentifier].value;
         }
 
-        // const import = {
-        //     orderId: this.props.orderId,
-        //     orderItems: this.props.orderItems,
-        //     // in a production app you should recalculate the price on the server
-        //     totalPrice: this.props.totalPrice,
-        //     orderData: formData,
-        //     userId: this.props.userId
-        // }
+        const inventoryImport = {
+            filePath: this.p,
+            fileData: formData,
+            userId: this.props.userId
+        }
 
         // this.props.onOrderItems(order, this.props.token);
         // this.props.checkoutComplete();
