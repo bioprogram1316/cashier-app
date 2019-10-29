@@ -100,7 +100,6 @@ class ImportInventoryForm extends Component {
         }
 
         const inventoryImport = {
-            filePath: this.p,
             fileData: formData,
             userId: this.props.userId
         }

@@ -53,8 +53,8 @@ class Inventory extends Component {
                 <Modal show={this.state.importing} closed={this.importCompleteHandler} >
                     <ImportInventoryForm />
                 </Modal>
-                <Button >Import Inventory</Button>
-                <p>Inventory List:</p>
+                <Button clicked={this.importHandler} btnType="Import">Import Inventory</Button>
+                <h2>Inventory List:</h2>
                 <ul>{inventory}</ul>
             </div>
         );
