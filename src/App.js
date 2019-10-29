@@ -30,6 +30,10 @@ const asyncAddItems = asyncComponent(() => {
   return import('./containers/Cashier/AddItems/AddItems');
 });
 
+const asyncInventory = asyncComponent(() => {
+  return import('./containers/Inventory/Inventory');
+});
+
 class App extends Component {
 
   componentDidMount () {
@@ -47,6 +51,7 @@ class App extends Component {
     if (this.props.isAuthenticated) {
       routes = (
         <Switch>
+          <Route path="/inventory" component={asyncInventory} />
           <Route path="/cashier" component={asyncCashier} />
           <Route path="/checkout" component={asyncCheckout} />
           <Route path="/addItems" component={asyncAddItems} />
