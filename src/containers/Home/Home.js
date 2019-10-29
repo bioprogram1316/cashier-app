@@ -31,7 +31,7 @@ return (
                     <img className={classes.Image} src={CurrentOrderBottomPic} alt="Current Order Bottom" />
                 </div>
             </div>
-            <li>Add items to your order in various formats including scanning</li>
+            <li>Add items to an order using various methods including scanning</li>
             <div className={classes.Row}>
                 <div className={classes.OneColumn}>
                     <img className={classes.Image} src={AddItemPic} alt="Add Item" />
