@@ -35,7 +35,7 @@ class ImportInventoryForm extends Component {
                 elementType: 'input',
                 label: 'File Location',
                 elementConfig: {
-                    type: 'url',
+                    type: 'file',
                     placeholder: 'File Path'
                 },
                 value: '',
