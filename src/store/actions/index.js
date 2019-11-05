@@ -20,3 +20,8 @@ export {
     setAuthRedirectPath,
     authCheckState
 } from './auth';
+
+export {
+    fileLoaded,
+    importInventory
+} from './inventory';

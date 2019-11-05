@@ -8,11 +8,12 @@ import axios from '../../../axios-orders';
 
 class ImportInventoryForm extends Component {
     state = {
-        importData: {
-            title: "",
-            file: null,
-            description: ""
-        },
+        // importData: {
+        //     title: "",
+        //     file: null,
+        //     description: ""
+        // },
+        selectedFile: null,
         uploadJson: false,
         uploadCsv: false,
         uploadSql: false,
@@ -31,13 +32,14 @@ class ImportInventoryForm extends Component {
                 valid: false,
                 touched: false
             },
-            filePath: {
+            file: {
                 elementType: 'input',
-                label: 'File Location',
+                label: 'File Upload',
                 elementConfig: {
                     type: 'file',
-                    placeholder: 'File Path'
+                    placeholder: ''
                 },
+                multiple: true,
                 value: '',
                 validation: {
                     required: true,
@@ -46,21 +48,21 @@ class ImportInventoryForm extends Component {
                 touched: false
             },
             fileType: {
-            elementType: 'select',
-            label: 'Select Import File Type',
-            elementConfig: {
-                options: [
-                    {value: 'json', displayValue: 'JSON'},
-                    {value: 'sql', displayValue: 'SQL'},
-                    {value: 'csv', displayValue: 'CSV'}
-                ]
-            },
-            value: 'csv',
-            validation: {
-                required: true
-            },
-            valid: true
-            },
+                elementType: 'select',
+                label: 'Select Import File Type',
+                elementConfig: {
+                    options: [
+                        {value: 'json', displayValue: 'JSON'},
+                        {value: 'sql', displayValue: 'SQL'},
+                        {value: 'csv', displayValue: 'CSV'}
+                    ]
+                },
+                value: 'csv',
+                validation: {
+                    required: true
+                },
+                valid: true
+                },
             importDescription: {
                 elementType: 'textarea',
                 label: 'Import Description (optional)',
@@ -77,6 +79,20 @@ class ImportInventoryForm extends Component {
             }
         },
         formIsValid: false
+    }
+
+    uploaderChangedHandler = (event) => {
+        console.log('event.target.files[0]', event.target.files[0])
+        if (event.target.files.length) {
+            const arrFiles = Array.from(event.target.files);
+            console.log('arrFiles', arrFiles);
+            const files = arrFiles.map((file, index) => {
+                const src = window.URL.createObjectURL(file);
+                return {file, id: index, src}
+            });
+            this.props.loadFiles(files);
+            console.log('files', files);
+        };
     }
 
     uploadJson = () => {
@@ -104,21 +120,45 @@ class ImportInventoryForm extends Component {
             userId: this.props.userId
         }
 
+        this.props.onImportInventory(inventoryImport, this.props.token);
         // this.props.onOrderItems(order, this.props.token);
         // this.props.checkoutComplete();
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
-               
-        const updatedFormElement = updateObject(this.state.importForm[inputIdentifier], {
-            value: event.target.value,
-            valid: checkValidity(event.target.value, this.state.importForm[inputIdentifier].validation),
-            touched: true
-        }); 
+
+        let updatedFormElement = null;
+
+        if (inputIdentifier === 'file') {
+            this.uploaderChangedHandler(event);
+            let valid = false;
+            if (event.target.files.length) {
+                valid = true;
+            }
+            console.log('event.target.files[0].name', event.target.files[0].name);
+            updatedFormElement = updateObject(this.state.importForm[inputIdentifier], {
+                valid: valid,
+                value: event.target.value,
+                touched: true
+            });
+            console.log('updatedFilelement', this.state.importForm[inputIdentifier]);
+            const uploadedFile = event.target.files[0];
+            console.log('uploadedFile', uploadedFile);
+            //const updatedImportData = updateObject(this.state.importData, {file: uploadedFile});
+            //console.log('updatedImportData', updatedImportData);
+            //this.setState({importData: updatedImportData});
+            this.setState({selectedFile: uploadedFile}, () => console.log('this.state', this.state));
+        } else {
+            updatedFormElement = updateObject(this.state.importForm[inputIdentifier], {
+                value: event.target.value,
+                valid: checkValidity(event.target.value, this.state.importForm[inputIdentifier].validation),
+                touched: true
+            });
+        } 
         const updatedImportForm = updateObject(this.state.importForm, {
             [inputIdentifier]: updatedFormElement
         });
- 
+        console.log('inputIdentifier', inputIdentifier);
         let formIsValid = true;
         for (let inputIdentifier in updatedImportForm) {
             // the form is valid if the specific element is valid and the general formIsValid is still true
@@ -126,6 +166,7 @@ class ImportInventoryForm extends Component {
         }
 
         this.setState({importForm: updatedImportForm, formIsValid: formIsValid});
+        console.log('importForm', this.state.importForm);
     }
 
     render () {
@@ -147,6 +188,7 @@ class ImportInventoryForm extends Component {
                         elementConfig={formElement.config.elementConfig}
                         value={formElement.config.value}
                         invalid={!formElement.config.valid}
+                        multiple={formElement.config.multiple}
                         shouldValidate={formElement.config.validation} // validates only if the object has a validation check
                         touched={formElement.config.touched} // says whether the input line has been touched by the user
                         changed={(event) => this.inputChangedHandler(event, formElement.id)}

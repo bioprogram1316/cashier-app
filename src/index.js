@@ -11,13 +11,15 @@ import * as serviceWorker from './serviceWorker';
 import cashierReducer from './store/reducers/cashier';
 import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
+import inventoryReducer from './store/reducers/inventory';
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducer = combineReducers({
     cashier: cashierReducer,
     order: orderReducer,
-    auth: authReducer
+    auth: authReducer,
+    inventory: inventoryReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));

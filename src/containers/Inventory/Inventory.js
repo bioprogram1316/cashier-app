@@ -51,7 +51,7 @@ class Inventory extends Component {
         return (
             <div>
                 <Modal show={this.state.importing} closed={this.importCompleteHandler} >
-                    <ImportInventoryForm />
+                    <ImportInventoryForm loadFiles={this.props.onLoadFiles} />
                 </Modal>
                 <Button clicked={this.importHandler} btnType="Import">Import Inventory</Button>
                 <h2>Inventory List:</h2>
@@ -66,16 +66,17 @@ const mapStateToProps = state => {
         //inventory: state.order.orders,
         loading: state.order.loading,
         token: state.auth.token,
-        userId: state.auth.userId
+        userId: state.auth.userId,
+        //files: state.inventory.files
     };
 };
 
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         //onFetchInventory: (token, userId) => dispatch(actions.fetchInventory(token, userId)),
-//         //onImportInventory: (importData, token) => dispatch(actions.importInventory(importData, token))
-//     };
-// };
+const mapDispatchToProps = dispatch => {
+    return {
+        onLoadFiles: (files) => dispatch(actions.fileLoaded(files)),
+        onImportInventory: (importData, token) => dispatch(actions.importInventory(importData, token))
+        //onFetchInventory: (token, userId) => dispatch(actions.fetchInventory(token, userId)),
+    };
+};
 
-//export default connect(mapStateToProps, mapDispatchToProps)(Inventory, axios);
-export default connect(mapStateToProps)(Inventory, axios);
+export default connect(mapStateToProps, mapDispatchToProps)(Inventory, axios);
