@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
+import * as actions from '../../../store/actions/index';
 import {updateObject, checkValidity} from '../../../shared/utility';
 import Input from '../../../components/UI/Input/Input';
 import Button from '../../../components/UI/Button/Button';
@@ -90,7 +92,7 @@ class ImportInventoryForm extends Component {
                 const src = window.URL.createObjectURL(file);
                 return {file, id: index, src}
             });
-            this.props.loadFiles(files);
+            this.props.onLoadFiles(files);
             console.log('files', files);
         };
     }
@@ -116,7 +118,8 @@ class ImportInventoryForm extends Component {
         }
 
         const inventoryImport = {
-            fileData: formData,
+            formData: formData,
+            uploadedfiles: this.state.selectedFile,
             userId: this.props.userId
         }
 
@@ -206,4 +209,19 @@ class ImportInventoryForm extends Component {
     }
 }
 
-export default ImportInventoryForm;
+export const mapStateToProps = state => {
+    return {
+        token: state.auth.token,
+        userId: state.auth.userId,
+        uploadedFiles: state.inventory.files
+    };
+};
+
+export const MapDispatchToProps = dispatch => {
+    return {
+        onLoadFiles: (files) => dispatch(actions.fileLoaded(files)),
+        onImportInventory: (importData, token) => dispatch(actions.importInventory(importData, token))
+    };
+};
+
+export default connect(mapStateToProps, MapDispatchToProps)(ImportInventoryForm, axios);

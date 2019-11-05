@@ -51,7 +51,7 @@ class Inventory extends Component {
         return (
             <div>
                 <Modal show={this.state.importing} closed={this.importCompleteHandler} >
-                    <ImportInventoryForm loadFiles={this.props.onLoadFiles} />
+                    <ImportInventoryForm />
                 </Modal>
                 <Button clicked={this.importHandler} btnType="Import">Import Inventory</Button>
                 <h2>Inventory List:</h2>
@@ -71,12 +71,11 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onLoadFiles: (files) => dispatch(actions.fileLoaded(files)),
-        onImportInventory: (importData, token) => dispatch(actions.importInventory(importData, token))
-        //onFetchInventory: (token, userId) => dispatch(actions.fetchInventory(token, userId)),
-    };
-};
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         onFetchInventory: (token, userId) => dispatch(actions.fetchInventory(token, userId)),
+//     };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Inventory, axios);
+// export default connect(mapStateToProps, mapDispatchToProps)(Inventory, axios);
+export default connect(mapStateToProps)(Inventory);
